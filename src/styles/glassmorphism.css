@@ -1,0 +1,210 @@
+/* Luxury Romantic White & Rose Gold Theme Tokens */
+:root {
+  --bg-gradient: radial-gradient(circle at 50% 10%, #ffffff 0%, #fff0f5 40%, #fce4ec 100%);
+  --accent-pink: #e91e63;
+  --accent-gold: #d4af37;
+  --accent-rose: #ff4d6d;
+  --accent-purple: #8e24aa;
+  
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(233, 30, 99, 0.2);
+  --glass-border-glow: rgba(233, 30, 99, 0.4);
+  --glass-shadow: 0 10px 40px 0 rgba(233, 30, 99, 0.12);
+  
+  --text-main: #2d0a16;
+  --text-sub: #5c1d33;
+  --text-muted: #8c3b58;
+  
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Scrollbar styling for light theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(253, 226, 236, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(233, 30, 99, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(233, 30, 99, 0.7);
+}
+
+/* Glassmorphic Container Utility (Light White Theme) */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.glass-panel-glow {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid var(--glass-border-glow);
+  box-shadow: 0 12px 45px rgba(233, 30, 99, 0.18), inset 0 0 20px rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+}
+
+/* Glowing Typography */
+.font-playfair {
+  font-family: var(--font-heading);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #880e4f 0%, #c2185b 50%, #e91e63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #e65c00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glow & Shimmer Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.3); }
+  50% { box-shadow: 0 0 35px rgba(233, 30, 99, 0.6); }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.8s infinite ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+/* Candy Tile Specific Animations */
+@keyframes tilePop {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes matchExplosion {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.3); filter: brightness(1.5) drop-shadow(0 0 15px #e91e63); }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+.tile-enter {
+  animation: tilePop 0.25s ease-out forwards;
+}
+
+.tile-explode {
+  animation: matchExplosion 0.3s ease-out forwards;
+}
+
+/* Instagram Story Custom Animations */
+@keyframes progressBar {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes floatUpHeart {
+  0% { transform: translateY(0) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.4); opacity: 0; }
+}
+
+.floating-heart {
+  position: absolute;
+  pointer-events: none;
+  animation: floatUpHeart 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Buttons & Interactive Elements (White Theme) */
+.btn-primary {
+  background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(233, 30, 99, 0.35);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(233, 30, 99, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.85);
+  color: #5c1d33;
+  border: 1px solid rgba(233, 30, 99, 0.25);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+  border-color: rgba(233, 30, 99, 0.5);
+  color: #880e4f;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.15);
+}
