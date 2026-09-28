@@ -182,11 +182,16 @@ export function App() {
       localStorage.removeItem('birthday_voicenote');
       localStorage.removeItem('birthday_bgmusic');
       localStorage.removeItem('birthday_herphoto');
+      removeLargeItem('birthday_memories');
+      removeLargeItem('birthday_letter');
+      removeLargeItem('birthday_voicenote');
+      removeLargeItem('birthday_bgmusic');
+      removeLargeItem('birthday_herphoto');
       setMemories(DEFAULT_MEMORIES);
       setLetterText(INITIAL_LETTER);
       setVoiceNoteUrl('');
-      setBgMusicUrl('');
-      setHerPhotoUrl('');
+      setBgMusicUrl('/upohar.mp3');
+      setHerPhotoUrl('/memories/birthday_cake.png');
     }
   };
 

@@ -79,21 +79,19 @@ export function BackgroundMusicPlayer({ musicUrl, isMuted }) {
       </button>
 
       {/* Audio Tag configured for Infinite Loop */}
-      {musicUrl && (
-        <audio
-          ref={audioRef}
-          src={musicUrl}
-          loop
-          preload="auto"
-          onError={(e) => {
-            console.warn('Audio URL load error, falling back to /upohar.mp3', e);
-            if (audioRef.current && musicUrl !== '/upohar.mp3') {
-              audioRef.current.src = '/upohar.mp3';
-              audioRef.current.play().catch(() => {});
-            }
-          }}
-        />
-      )}
+      <audio
+        ref={audioRef}
+        src={musicUrl || '/upohar.mp3'}
+        loop
+        preload="auto"
+        onError={(e) => {
+          console.warn('Audio URL load error, falling back to /upohar.mp3', e);
+          if (audioRef.current && (musicUrl || '') !== '/upohar.mp3') {
+            audioRef.current.src = '/upohar.mp3';
+            audioRef.current.play().catch(() => {});
+          }
+        }}
+      />
     </div>
   );
 }
