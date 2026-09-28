@@ -17,53 +17,37 @@ export function MemoryCustomizerModal({ letterText, memories, voiceNoteUrl, bgMu
   const handleHerPhotoUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setCurrentHerPhotoUrl(e.target.result);
-    };
-    reader.readAsDataURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    setCurrentHerPhotoUrl(blobUrl);
   };
 
   const handleVoiceUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setCurrentVoiceUrl(e.target.result);
-    };
-    reader.readAsDataURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    setCurrentVoiceUrl(blobUrl);
   };
 
   const handleBgMusicUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setCurrentBgMusicUrl(e.target.result);
-    };
-    reader.readAsDataURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    setCurrentBgMusicUrl(blobUrl);
   };
 
   const handlePuzzleImageUpload = (levelId, event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target.result;
-      setCustomMemories((prev) =>
-        prev.map((mem) => {
-          if (mem.id === levelId) {
-            return { ...mem, puzzleImage: dataUrl };
-          }
-          return mem;
-        })
-      );
-    };
-    reader.readAsDataURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    setCustomMemories((prev) =>
+      prev.map((mem) => {
+        if (mem.id === levelId) {
+          return { ...mem, puzzleImage: blobUrl };
+        }
+        return mem;
+      })
+    );
   };
 
   const reindexMemories = (mems) => {
@@ -196,27 +180,23 @@ export function MemoryCustomizerModal({ letterText, memories, voiceNoteUrl, bgMu
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target.result;
-      const isVideo = file.type.startsWith('video');
+    const blobUrl = URL.createObjectURL(file);
+    const isVideo = file.type.startsWith('video');
 
-      setCustomMemories((prev) =>
-        prev.map((mem) => {
-          if (mem.id === levelId) {
-            const updatedSlides = [...mem.slides];
-            updatedSlides[slideIdx] = {
-              ...updatedSlides[slideIdx],
-              url: dataUrl,
-              type: isVideo ? 'video' : 'image'
-            };
-            return { ...mem, slides: updatedSlides };
-          }
-          return mem;
-        })
-      );
-    };
-    reader.readAsDataURL(file);
+    setCustomMemories((prev) =>
+      prev.map((mem) => {
+        if (mem.id === levelId) {
+          const updatedSlides = [...mem.slides];
+          updatedSlides[slideIdx] = {
+            ...updatedSlides[slideIdx],
+            url: blobUrl,
+            type: isVideo ? 'video' : 'image'
+          };
+          return { ...mem, slides: updatedSlides };
+        }
+        return mem;
+      })
+    );
   };
 
   const handleSaveAll = () => {
