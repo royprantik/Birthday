@@ -24,10 +24,26 @@ export const DEFAULT_MEMORIES = [
       {
         id: "1-1",
         type: "image",
-        url: "/memories/first_date.png",
-        caption: "The first text about that Maths exam that started it all! ☕💖",
-        date: "March 8, 2024",
+        url: "/memories/level1_slide1.jpg",
+        caption: "The sweet smile that started it all! ☕💖",
+        date: "April 5, 2024",
         mood: "Nervous & Enchanted"
+      },
+      {
+        id: "1-2",
+        type: "image",
+        url: "/memories/level1_slide2.jpg",
+        caption: "Goru Bihu matashree vibes & hilarious turmeric face mask! 😂🌾❤️",
+        date: "April 13, 2024",
+        mood: "Playful & Hilarious"
+      },
+      {
+        id: "1-3",
+        type: "image",
+        url: "/memories/level1_slide3.jpg",
+        caption: "Everyone is busy doing Bihu photoshoot... Me bihu khaba jai asu! 😎✨",
+        date: "April 13, 2024",
+        mood: "Gorgeous & Festive"
       }
     ]
   },
