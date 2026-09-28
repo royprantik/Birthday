@@ -10,6 +10,8 @@ import { MemoryCustomizerModal } from './components/MemoryCustomizerModal';
 import { DEFAULT_MEMORIES, INITIAL_LETTER } from './utils/defaultMemories';
 import './styles/glassmorphism.css';
 
+import { setLargeItem, getLargeItem, removeLargeItem } from './utils/indexedDBStorage';
+
 export function App() {
   const [view, setView] = useState('map'); // 'map', 'game', 'finale'
   const [currentLevelId, setCurrentLevelId] = useState(1);
@@ -23,63 +25,102 @@ export function App() {
 
   // Load state from localStorage or initialize with default 9 memories
   const [memories, setMemories] = useState(() => {
-    const saved = localStorage.getItem('birthday_memories');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('birthday_memories');
+      if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.length >= 9) return parsed;
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
     return DEFAULT_MEMORIES;
   });
 
   const [letterText, setLetterText] = useState(() => {
-    const saved = localStorage.getItem('birthday_letter');
-    if (saved && saved.includes('Violina')) {
-      return saved;
-    }
+    try {
+      const saved = localStorage.getItem('birthday_letter');
+      if (saved && saved.includes('Violina')) {
+        return saved;
+      }
+    } catch (e) {}
     return INITIAL_LETTER;
   });
 
-  const [voiceNoteUrl, setVoiceNoteUrl] = useState(() => {
-    const saved = localStorage.getItem('birthday_voicenote');
-    return saved || '';
-  });
+  const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
+  const [bgMusicUrl, setBgMusicUrl] = useState('');
+  const [herPhotoUrl, setHerPhotoUrl] = useState('');
 
-  const [bgMusicUrl, setBgMusicUrl] = useState(() => {
-    const saved = localStorage.getItem('birthday_bgmusic');
-    return saved || '';
-  });
-
-  const [herPhotoUrl, setHerPhotoUrl] = useState(() => {
-    const saved = localStorage.getItem('birthday_herphoto');
-    return saved || '';
-  });
-
-  // Save to localStorage when state changes
+  // Load large media items from IndexedDB asynchronously on mount
   useEffect(() => {
-    localStorage.setItem('birthday_memories', JSON.stringify(memories));
+    getLargeItem('birthday_bgmusic').then((val) => {
+      if (val) setBgMusicUrl(val);
+      else {
+        try {
+          const ls = localStorage.getItem('birthday_bgmusic');
+          if (ls) setBgMusicUrl(ls);
+        } catch (e) {}
+      }
+    });
+
+    getLargeItem('birthday_voicenote').then((val) => {
+      if (val) setVoiceNoteUrl(val);
+      else {
+        try {
+          const ls = localStorage.getItem('birthday_voicenote');
+          if (ls) setVoiceNoteUrl(ls);
+        } catch (e) {}
+      }
+    });
+
+    getLargeItem('birthday_herphoto').then((val) => {
+      if (val) setHerPhotoUrl(val);
+      else {
+        try {
+          const ls = localStorage.getItem('birthday_herphoto');
+          if (ls) setHerPhotoUrl(ls);
+        } catch (e) {}
+      }
+    });
+  }, []);
+
+  // Save to IndexedDB and fallback to localStorage safely
+  useEffect(() => {
+    try {
+      localStorage.setItem('birthday_memories', JSON.stringify(memories));
+    } catch (e) {
+      setLargeItem('birthday_memories', memories);
+    }
   }, [memories]);
 
   useEffect(() => {
-    localStorage.setItem('birthday_letter', letterText);
+    try {
+      localStorage.setItem('birthday_letter', letterText);
+    } catch (e) {}
   }, [letterText]);
 
   useEffect(() => {
     if (voiceNoteUrl) {
-      localStorage.setItem('birthday_voicenote', voiceNoteUrl);
+      setLargeItem('birthday_voicenote', voiceNoteUrl);
+      try {
+        localStorage.setItem('birthday_voicenote', voiceNoteUrl);
+      } catch (e) {}
     }
   }, [voiceNoteUrl]);
 
   useEffect(() => {
     if (bgMusicUrl) {
-      localStorage.setItem('birthday_bgmusic', bgMusicUrl);
+      setLargeItem('birthday_bgmusic', bgMusicUrl);
+      try {
+        localStorage.setItem('birthday_bgmusic', bgMusicUrl);
+      } catch (e) {}
     }
   }, [bgMusicUrl]);
 
   useEffect(() => {
     if (herPhotoUrl) {
-      localStorage.setItem('birthday_herphoto', herPhotoUrl);
+      setLargeItem('birthday_herphoto', herPhotoUrl);
+      try {
+        localStorage.setItem('birthday_herphoto', herPhotoUrl);
+      } catch (e) {}
     }
   }, [herPhotoUrl]);
 
