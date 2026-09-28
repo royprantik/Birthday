@@ -1,26 +1,54 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Music, Play, Pause, Volume2, VolumeX, Sparkles } from 'lucide-react';
-import { soundEngine } from '../utils/audio';
+import { Music, Play, Pause } from 'lucide-react';
 
 export function BackgroundMusicPlayer({ musicUrl, isMuted }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
+  const effectiveSrc = musicUrl || '/upohar.mp3';
+
+  // Ensure audio plays when user interacts or toggles
+  const playAudio = () => {
+    if (!audioRef.current) return;
+    audioRef.current.muted = isMuted;
+    audioRef.current.play().then(() => {
+      setIsPlaying(true);
+    }).catch((err) => {
+      console.log('Playback error:', err);
+    });
+  };
+
+  const pauseAudio = () => {
+    if (!audioRef.current) return;
+    audioRef.current.pause();
+    setIsPlaying(false);
+  };
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      pauseAudio();
+    } else {
+      playAudio();
+    }
+  };
+
   useEffect(() => {
-    // Attempt auto play on user first click anywhere on document
-    const handleFirstClick = () => {
+    const handleUserInteraction = () => {
       if (audioRef.current && !isPlaying && !isMuted) {
         audioRef.current.play().then(() => {
           setIsPlaying(true);
-        }).catch((err) => {
-          console.log('Audio autoplay prevented by browser policy:', err);
-        });
+        }).catch(() => {});
       }
-      document.removeEventListener('click', handleFirstClick);
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
     };
 
-    document.addEventListener('click', handleFirstClick);
-    return () => document.removeEventListener('click', handleFirstClick);
+    window.addEventListener('click', handleUserInteraction);
+    window.addEventListener('touchstart', handleUserInteraction);
+    return () => {
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
+    };
   }, [isPlaying, isMuted]);
 
   useEffect(() => {
@@ -28,24 +56,6 @@ export function BackgroundMusicPlayer({ musicUrl, isMuted }) {
       audioRef.current.muted = isMuted;
     }
   }, [isMuted]);
-
-  const togglePlay = () => {
-    soundEngine.playClick();
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        // If no custom mp3 provided yet, play synth background music fallback
-        soundEngine.toggleBgMusic();
-        setIsPlaying(true);
-      });
-    }
-  };
 
   return (
     <div className="flex items-center gap-2 bg-pink-50/90 px-3 py-1.5 rounded-full border border-pink-300 shadow-sm">
@@ -81,16 +91,11 @@ export function BackgroundMusicPlayer({ musicUrl, isMuted }) {
       {/* Audio Tag configured for Infinite Loop */}
       <audio
         ref={audioRef}
-        src={musicUrl || '/upohar.mp3'}
+        src={effectiveSrc}
         loop
         preload="auto"
-        onError={(e) => {
-          console.warn('Audio URL load error, falling back to /upohar.mp3', e);
-          if (audioRef.current && (musicUrl || '') !== '/upohar.mp3') {
-            audioRef.current.src = '/upohar.mp3';
-            audioRef.current.play().catch(() => {});
-          }
-        }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       />
     </div>
   );
