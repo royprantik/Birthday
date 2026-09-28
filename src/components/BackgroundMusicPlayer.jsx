@@ -85,6 +85,13 @@ export function BackgroundMusicPlayer({ musicUrl, isMuted }) {
           src={musicUrl}
           loop
           preload="auto"
+          onError={(e) => {
+            console.warn('Audio URL load error, falling back to /upohar.mp3', e);
+            if (audioRef.current && musicUrl !== '/upohar.mp3') {
+              audioRef.current.src = '/upohar.mp3';
+              audioRef.current.play().catch(() => {});
+            }
+          }}
         />
       )}
     </div>

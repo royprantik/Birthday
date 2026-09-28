@@ -52,32 +52,44 @@ export function App() {
   // Load large media items from IndexedDB asynchronously on mount
   useEffect(() => {
     getLargeItem('birthday_bgmusic').then((val) => {
-      if (val) setBgMusicUrl(val);
-      else {
+      if (val && !val.startsWith('blob:')) {
+        setBgMusicUrl(val);
+      } else {
         try {
           const ls = localStorage.getItem('birthday_bgmusic');
-          if (ls) setBgMusicUrl(ls);
-        } catch (e) {}
+          if (ls && !ls.startsWith('blob:')) {
+            setBgMusicUrl(ls);
+          } else {
+            setBgMusicUrl('/upohar.mp3');
+          }
+        } catch (e) {
+          setBgMusicUrl('/upohar.mp3');
+        }
       }
     });
 
     getLargeItem('birthday_voicenote').then((val) => {
-      if (val) setVoiceNoteUrl(val);
-      else {
+      if (val && !val.startsWith('blob:')) {
+        setVoiceNoteUrl(val);
+      } else {
         try {
           const ls = localStorage.getItem('birthday_voicenote');
-          if (ls) setVoiceNoteUrl(ls);
+          if (ls && !ls.startsWith('blob:')) setVoiceNoteUrl(ls);
         } catch (e) {}
       }
     });
 
     getLargeItem('birthday_herphoto').then((val) => {
-      if (val) setHerPhotoUrl(val);
-      else {
+      if (val && !val.startsWith('blob:')) {
+        setHerPhotoUrl(val);
+      } else {
         try {
           const ls = localStorage.getItem('birthday_herphoto');
-          if (ls) setHerPhotoUrl(ls);
-        } catch (e) {}
+          if (ls && !ls.startsWith('blob:')) setHerPhotoUrl(ls);
+          else setHerPhotoUrl('/memories/birthday_cake.png');
+        } catch (e) {
+          setHerPhotoUrl('/memories/birthday_cake.png');
+        }
       }
     });
   }, []);
