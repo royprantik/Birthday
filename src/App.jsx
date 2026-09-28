@@ -46,7 +46,7 @@ export function App() {
   });
 
   const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
-  const [bgMusicUrl, setBgMusicUrl] = useState('');
+  const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
   const [herPhotoUrl, setHerPhotoUrl] = useState('');
 
   // Load large media items from IndexedDB asynchronously on mount
