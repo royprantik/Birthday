@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Save, Upload, RotateCcw, Sparkles, FileText, Image as ImageIcon, Plus, Trash2, Mic, Radio, Music, Crown } from 'lucide-react';
+import { DEFAULT_MEMORIES, INITIAL_LETTER } from '../utils/defaultMemories';
 
 export function MemoryCustomizerModal({ letterText, memories, voiceNoteUrl, bgMusicUrl, herPhotoUrl, onSave, onClose, onReset }) {
   const [currentLetter, setCurrentLetter] = useState(letterText);
@@ -9,6 +10,15 @@ export function MemoryCustomizerModal({ letterText, memories, voiceNoteUrl, bgMu
   const [currentHerPhotoUrl, setCurrentHerPhotoUrl] = useState(herPhotoUrl || '');
   const [activeTab, setActiveTab] = useState('photos'); // 'photos', 'letter', or 'audio'
   const [selectedLevelId, setSelectedLevelId] = useState(1);
+
+  const handleResetClick = () => {
+    onReset();
+    setCustomMemories(DEFAULT_MEMORIES);
+    setCurrentLetter(INITIAL_LETTER);
+    setCurrentVoiceUrl('');
+    setCurrentBgMusicUrl('/upohar.mp3');
+    setCurrentHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
+  };
 
   const handleLetterChange = (e) => {
     setCurrentLetter(e.target.value);
@@ -562,7 +572,7 @@ export function MemoryCustomizerModal({ letterText, memories, voiceNoteUrl, bgMu
         {/* Modal Footer Controls */}
         <div className="flex items-center justify-between border-t border-pink-200 pt-4 mt-6">
           <button
-            onClick={onReset}
+            onClick={handleResetClick}
             className="btn-secondary text-xs !py-2 !px-3 text-red-600 hover:text-red-700"
             title="Reset to initial default letter & photos"
           >

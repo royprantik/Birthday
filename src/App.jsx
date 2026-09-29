@@ -27,8 +27,18 @@ export function App() {
   // Load memories state - DEFAULT_MEMORIES in code is 100% absolute source of truth for photo slides & unlocked state!
   const [memories, setMemories] = useState(DEFAULT_MEMORIES);
 
-  // Sync state on mount if DEFAULT_MEMORIES changes
+  // Sync state on mount & purge all legacy stale caches from early versions
   useEffect(() => {
+    try {
+      localStorage.removeItem('birthday_memories');
+      localStorage.removeItem('birthday_memories_v1');
+      localStorage.removeItem('birthday_memories_v2');
+      localStorage.removeItem('birthday_memories_v3');
+      localStorage.removeItem('birthday_app_cloud_cache_v5');
+      removeLargeItem('birthday_memories');
+      removeLargeItem('birthday_memories_v3');
+      removeLargeItem('birthday_app_cloud_cache_v5');
+    } catch (e) {}
     setMemories(DEFAULT_MEMORIES);
   }, []);
 
@@ -182,12 +192,13 @@ export function App() {
   // Reset to default initial memories and letter
   const handleResetDefaults = () => {
     if (window.confirm('Reset all photos, music, voice note, captions, and letter back to default settings?')) {
-      localStorage.removeItem('birthday_memories');
-      localStorage.removeItem('birthday_letter');
-      localStorage.removeItem('birthday_voicenote');
-      localStorage.removeItem('birthday_bgmusic');
-      localStorage.removeItem('birthday_herphoto');
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
       removeLargeItem('birthday_memories');
+      removeLargeItem('birthday_memories_v3');
+      removeLargeItem('birthday_app_cloud_cache_v5');
       removeLargeItem('birthday_letter');
       removeLargeItem('birthday_voicenote');
       removeLargeItem('birthday_bgmusic');
