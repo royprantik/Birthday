@@ -23,13 +23,21 @@ export function App() {
 
   const [isCeremonyActive, setIsCeremonyActive] = useState(false);
 
-  // Load state from localStorage or initialize with default 9 memories
+  // Load state from DEFAULT_MEMORIES and sync unlocked status from storage
   const [memories, setMemories] = useState(() => {
     try {
-      const saved = localStorage.getItem('birthday_memories');
+      const saved = localStorage.getItem('birthday_memories_v10') || localStorage.getItem('birthday_memories_v3') || localStorage.getItem('birthday_memories');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.length >= 9) return parsed;
+        if (Array.isArray(parsed) && parsed.length >= 9) {
+          return DEFAULT_MEMORIES.map((defMem, idx) => {
+            const savedMem = parsed.find((m) => m.id === defMem.id) || parsed[idx];
+            return {
+              ...defMem,
+              unlocked: savedMem ? savedMem.unlocked : defMem.unlocked
+            };
+          });
+        }
       }
     } catch (e) {}
     return DEFAULT_MEMORIES;
@@ -37,7 +45,7 @@ export function App() {
 
   const [letterText, setLetterText] = useState(() => {
     try {
-      const saved = localStorage.getItem('birthday_letter');
+      const saved = localStorage.getItem('birthday_letter_v3');
       if (saved && saved.includes('Violina')) {
         return saved;
       }
@@ -97,15 +105,15 @@ export function App() {
   // Save to IndexedDB and fallback to localStorage safely
   useEffect(() => {
     try {
-      localStorage.setItem('birthday_memories', JSON.stringify(memories));
+      localStorage.setItem('birthday_memories_v3', JSON.stringify(memories));
     } catch (e) {
-      setLargeItem('birthday_memories', memories);
+      setLargeItem('birthday_memories_v3', memories);
     }
   }, [memories]);
 
   useEffect(() => {
     try {
-      localStorage.setItem('birthday_letter', letterText);
+      localStorage.setItem('birthday_letter_v3', letterText);
     } catch (e) {}
   }, [letterText]);
 
