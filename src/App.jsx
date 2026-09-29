@@ -63,11 +63,25 @@ export function App() {
     fetchCloudState().then((remoteData) => {
       if (remoteData) {
         if (remoteData.letterText) setLetterText(remoteData.letterText);
-        if (remoteData.bgMusicUrl) setBgMusicUrl(remoteData.bgMusicUrl);
-        if (remoteData.voiceNoteUrl) setVoiceNoteUrl(remoteData.voiceNoteUrl);
-        if (remoteData.herPhotoUrl) setHerPhotoUrl(remoteData.herPhotoUrl);
+        if (remoteData.bgMusicUrl && !remoteData.bgMusicUrl.startsWith('blob:')) {
+          setBgMusicUrl(remoteData.bgMusicUrl);
+        } else {
+          setBgMusicUrl('/upohar.mp3');
+        }
+        if (remoteData.voiceNoteUrl && !remoteData.voiceNoteUrl.startsWith('blob:')) setVoiceNoteUrl(remoteData.voiceNoteUrl);
+        if (remoteData.herPhotoUrl && !remoteData.herPhotoUrl.startsWith('blob:')) setHerPhotoUrl(remoteData.herPhotoUrl);
         if (remoteData.memories && Array.isArray(remoteData.memories)) {
-          setMemories(remoteData.memories);
+          setMemories(
+            DEFAULT_MEMORIES.map((defMem, idx) => {
+              const remoteMem = remoteData.memories.find((m) => m.id === defMem.id) || remoteData.memories[idx];
+              if (!remoteMem) return defMem;
+              return {
+                ...defMem,
+                unlocked: remoteMem.unlocked !== undefined ? remoteMem.unlocked : defMem.unlocked,
+                slides: (remoteMem.slides && remoteMem.slides.length >= defMem.slides.length) ? remoteMem.slides : defMem.slides
+              };
+            })
+          );
         }
       }
     });
