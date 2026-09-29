@@ -24,50 +24,39 @@ export function App() {
 
   const [isCeremonyActive, setIsCeremonyActive] = useState(false);
 
-  // Load state from DEFAULT_MEMORIES and sync unlocked status from storage
+  // Load memories state - DEFAULT_MEMORIES in code is 100% absolute source of truth for photo slides!
   const [memories, setMemories] = useState(DEFAULT_MEMORIES);
 
-  const [letterText, setLetterText] = useState(() => {
-    try {
-      const saved = localStorage.getItem('birthday_letter_v5');
-      if (saved && saved.includes('Violina')) {
-        return saved;
-      }
-    } catch (e) {}
-    return INITIAL_LETTER;
-  });
-
-  const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
-  const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
-  const [herPhotoUrl, setHerPhotoUrl] = useState('');
-
-  // Fetch Cloud Database state on mount (Syncs unlocked level progress while keeping code photos pristine!)
+  // Sync unlocked level progress on mount while preserving code photos
   useEffect(() => {
-    fetchCloudState().then((remoteData) => {
-      if (remoteData) {
-        if (remoteData.letterText && remoteData.letterText.includes('Violina')) setLetterText(remoteData.letterText);
-        if (remoteData.bgMusicUrl && !remoteData.bgMusicUrl.startsWith('blob:')) {
-          setBgMusicUrl(remoteData.bgMusicUrl);
-        } else {
-          setBgMusicUrl('/upohar.mp3');
-        }
-        if (remoteData.voiceNoteUrl && !remoteData.voiceNoteUrl.startsWith('blob:')) setVoiceNoteUrl(remoteData.voiceNoteUrl);
-        if (remoteData.herPhotoUrl && !remoteData.herPhotoUrl.startsWith('blob:')) setHerPhotoUrl(remoteData.herPhotoUrl);
-        
-        if (remoteData.memories && Array.isArray(remoteData.memories)) {
-          setMemories((currentMems) =>
-            DEFAULT_MEMORIES.map((defMem, idx) => {
-              const remoteMem = remoteData.memories.find((m) => m.id === defMem.id) || remoteData.memories[idx];
-              return {
-                ...defMem,
-                unlocked: remoteMem ? remoteMem.unlocked : defMem.unlocked
-              };
-            })
+    try {
+      const saved = localStorage.getItem('birthday_unlocked_levels_v1');
+      if (saved) {
+        const unlockedIds = JSON.parse(saved);
+        if (Array.isArray(unlockedIds)) {
+          setMemories(
+            DEFAULT_MEMORIES.map((m) => ({
+              ...m,
+              unlocked: unlockedIds.includes(m.id) || m.id === 1
+            }))
           );
         }
       }
-    });
+    } catch (e) {}
   }, []);
+
+  const [letterText, setLetterText] = useState(INITIAL_LETTER);
+  const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
+  const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
+  const [herPhotoUrl, setHerPhotoUrl] = useState('/memories/level1_slide1.jpg');
+
+  // Save unlocked level IDs to storage
+  useEffect(() => {
+    try {
+      const unlockedIds = memories.filter((m) => m.unlocked).map((m) => m.id);
+      localStorage.setItem('birthday_unlocked_levels_v1', JSON.stringify(unlockedIds));
+    } catch (e) {}
+  }, [memories]);
 
   // Load large media items from IndexedDB asynchronously on mount fallback
   useEffect(() => {
