@@ -11,6 +11,7 @@ import { DEFAULT_MEMORIES, INITIAL_LETTER } from './utils/defaultMemories';
 import './styles/glassmorphism.css';
 
 import { setLargeItem, getLargeItem, removeLargeItem } from './utils/indexedDBStorage';
+import { fetchCloudState, saveCloudState } from './utils/cloudSync';
 
 export function App() {
   const [view, setView] = useState('map'); // 'map', 'game', 'finale'
@@ -57,7 +58,22 @@ export function App() {
   const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
   const [herPhotoUrl, setHerPhotoUrl] = useState('');
 
-  // Load large media items from IndexedDB asynchronously on mount
+  // Fetch Cloud Database state on mount (Syncs changes made across any device worldwide!)
+  useEffect(() => {
+    fetchCloudState().then((remoteData) => {
+      if (remoteData) {
+        if (remoteData.letterText) setLetterText(remoteData.letterText);
+        if (remoteData.bgMusicUrl) setBgMusicUrl(remoteData.bgMusicUrl);
+        if (remoteData.voiceNoteUrl) setVoiceNoteUrl(remoteData.voiceNoteUrl);
+        if (remoteData.herPhotoUrl) setHerPhotoUrl(remoteData.herPhotoUrl);
+        if (remoteData.memories && Array.isArray(remoteData.memories)) {
+          setMemories(remoteData.memories);
+        }
+      }
+    });
+  }, []);
+
+  // Load large media items from IndexedDB asynchronously on mount fallback
   useEffect(() => {
     getLargeItem('birthday_bgmusic').then((val) => {
       if (val && !val.startsWith('blob:')) {
@@ -173,13 +189,22 @@ export function App() {
     setActiveStoryMemory(unlockedMem);
   };
 
-  // Save changes from Memory Customizer Modal
+  // Save changes from Memory Customizer Modal & Push to Cloud Database for multi-device sync
   const handleSaveCustomizer = ({ letterText: newLetter, memories: newMemories, voiceNoteUrl: newVoice, bgMusicUrl: newBgMusic, herPhotoUrl: newHerPhoto }) => {
     setLetterText(newLetter);
     setMemories(newMemories);
     if (newVoice !== undefined) setVoiceNoteUrl(newVoice);
     if (newBgMusic !== undefined) setBgMusicUrl(newBgMusic);
     if (newHerPhoto !== undefined) setHerPhotoUrl(newHerPhoto);
+
+    // Sync state to Cloud Database so all devices update in real-time!
+    saveCloudState({
+      letterText: newLetter,
+      memories: newMemories,
+      voiceNoteUrl: newVoice !== undefined ? newVoice : voiceNoteUrl,
+      bgMusicUrl: newBgMusic !== undefined ? newBgMusic : bgMusicUrl,
+      herPhotoUrl: newHerPhoto !== undefined ? newHerPhoto : herPhotoUrl
+    });
   };
 
   // Reset to default initial memories and letter
