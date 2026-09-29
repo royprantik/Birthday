@@ -8,6 +8,7 @@ import { BirthdayFinale } from './components/BirthdayFinale';
 import { MemoryVault } from './components/MemoryVault';
 import { MemoryCustomizerModal } from './components/MemoryCustomizerModal';
 import { DEFAULT_MEMORIES, INITIAL_LETTER } from './utils/defaultMemories';
+import level1_slide1 from './assets/memories/level1_slide1.jpg';
 import './styles/glassmorphism.css';
 
 import { setLargeItem, getLargeItem, removeLargeItem } from './utils/indexedDBStorage';
@@ -45,7 +46,7 @@ export function App() {
   const [letterText, setLetterText] = useState(INITIAL_LETTER);
   const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
   const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
-  const [herPhotoUrl, setHerPhotoUrl] = useState('/memories/level1_slide1.jpg?v=3');
+  const [herPhotoUrl, setHerPhotoUrl] = useState(level1_slide1);
 
   // Save unlocked level IDs to storage
   useEffect(() => {
@@ -92,9 +93,9 @@ export function App() {
         try {
           const ls = localStorage.getItem('birthday_herphoto');
           if (ls && !ls.startsWith('blob:')) setHerPhotoUrl(ls);
-          else setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
+          else setHerPhotoUrl(level1_slide1);
         } catch (e) {
-          setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
+          setHerPhotoUrl(level1_slide1);
         }
       }
     });
@@ -200,7 +201,7 @@ export function App() {
       setLetterText(INITIAL_LETTER);
       setVoiceNoteUrl('');
       setBgMusicUrl('/upohar.mp3');
-      setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
+      setHerPhotoUrl(level1_slide1);
     }
   };
 
@@ -245,7 +246,7 @@ export function App() {
           currentLevelId === lastLevelId ? (
             <JigsawPuzzleGame
               levelData={currentLevelData}
-              imageUrl={currentLevelData.puzzleImage || currentLevelData.slides[0]?.url || '/memories/level1_slide1.jpg?v=3'}
+              imageUrl={currentLevelData.puzzleImage || currentLevelData.slides[0]?.url || level1_slide1}
               onBackToMap={() => setView('map')}
               onLevelComplete={handleLevelComplete}
             />
