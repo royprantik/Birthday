@@ -7,32 +7,6 @@ const LOCAL_CACHE_KEY = 'birthday_app_cloud_cache_v5';
 
 // Fetch latest configuration from Cloud Database
 export async function fetchCloudState() {
-  try {
-    const res = await fetch(CLOUD_API_URL, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' }
-    });
-
-    if (res.ok) {
-      const result = await res.json();
-      if (result && result.data && result.data.memories) {
-        // Cache locally for offline resilience
-        try {
-          localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(result.data));
-        } catch (e) {}
-        return result.data;
-      }
-    }
-  } catch (err) {
-    console.warn('Cloud database fetch error, using local fallback:', err);
-  }
-
-  // Fallback to local cache if network is offline
-  try {
-    const cached = localStorage.getItem(LOCAL_CACHE_KEY);
-    if (cached) return JSON.parse(cached);
-  } catch (e) {}
-
   return null;
 }
 

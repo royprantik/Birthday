@@ -100,14 +100,7 @@ export function App() {
     });
   }, []);
 
-  // Save to IndexedDB and fallback to localStorage safely
-  useEffect(() => {
-    try {
-      localStorage.setItem('birthday_memories_v3', JSON.stringify(memories));
-    } catch (e) {
-      setLargeItem('birthday_memories_v3', memories);
-    }
-  }, [memories]);
+
 
   useEffect(() => {
     try {
