@@ -1,4 +1,4 @@
-// Default Memories Data & Storyline Content for Levels 1-9
+// Default Memories Data & Storyline Content for Miss Violina Das (Levels 1-9)
 import level1_slide1 from '../assets/memories/level1_slide1.jpg';
 import level1_slide2 from '../assets/memories/level1_slide2.jpg';
 import level1_slide3 from '../assets/memories/level1_slide3.jpg';
@@ -6,11 +6,6 @@ import level1_slide3 from '../assets/memories/level1_slide3.jpg';
 import level2_slide1 from '../assets/memories/level2_slide1.jpg';
 import level2_slide2 from '../assets/memories/level2_slide2.jpg';
 import level2_slide3 from '../assets/memories/level2_slide3.jpg';
-
-import starry_beach from '../assets/memories/starry_beach.png';
-import sunset_picnic from '../assets/memories/sunset_picnic.png';
-import first_date from '../assets/memories/first_date.png';
-import birthday_cake from '../assets/memories/birthday_cake.png';
 
 export const INITIAL_LETTER = `Miss Violina Ray, yeah that name really suits u better HEHEHEHE! 💖
 
@@ -108,7 +103,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "3-1",
         type: "image",
-        url: starry_beach,
+        url: level1_slide1,
         caption: "Our very first hug that made time freeze completely 🫂❤️",
         date: "May 2024",
         mood: "Heartwarming"
@@ -128,7 +123,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "4-1",
         type: "image",
-        url: sunset_picnic,
+        url: level2_slide3,
         caption: "Cooking together in Mom's kitchen... this was truly special 🍲💖",
         date: "June 2024",
         mood: "Cozy & Loving"
@@ -148,7 +143,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "5-1",
         type: "image",
-        url: first_date,
+        url: level1_slide1,
         caption: "Our first Guwahati Starbucks date sipping coffee together ☕✨",
         date: "August 2024",
         mood: "Coffee Bliss"
@@ -168,7 +163,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "6-1",
         type: "image",
-        url: sunset_picnic,
+        url: level2_slide3,
         caption: "My cute Angry Bird arguing with me under the trees at Nehru Park 🌳❤️",
         date: "October 2024",
         mood: "Playful & Silly"
@@ -188,7 +183,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "7-1",
         type: "image",
-        url: starry_beach,
+        url: level1_slide1,
         caption: "That unforgettable first kiss by Digholi Pukhuri lake 💋🌊",
         date: "December 2024",
         mood: "Pure Romance"
@@ -208,7 +203,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "8-1",
         type: "image",
-        url: first_date,
+        url: level2_slide3,
         caption: "My birthday made so special because of your wonderful gift & love 🎁💖",
         date: "2025",
         mood: "Grateful & Loved"
@@ -219,13 +214,13 @@ export const DEFAULT_MEMORIES = [
     id: 9,
     title: "Level 9: Grand Birthday Celebration",
     subtitle: "Happy Birthday Miss Violina Ray! 🎂🎉💖",
-    puzzleImage: birthday_cake,
+    puzzleImage: level1_slide1,
     unlocked: true,
     slides: [
       {
         id: "9-1",
         type: "image",
-        url: birthday_cake,
+        url: level1_slide1,
         caption: "Happy Birthday to the cosmic attractor of my life! 🎂🎆",
         date: "September 23, 2026",
         mood: "Celebration of Love"
