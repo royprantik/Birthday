@@ -33,7 +33,7 @@ export function MemoryVault({ memories, onClose, onSelectStory }) {
         {/* Story Memory Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {memories.map((mem) => {
-            const isUnlocked = mem.unlocked || mem.id === 1;
+            const isUnlocked = true;
             const firstSlide = mem.slides[0];
 
             return (

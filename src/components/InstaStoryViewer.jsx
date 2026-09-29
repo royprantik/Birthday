@@ -132,7 +132,7 @@ export function InstaStoryViewer({ memory, onClose, onNextLevel }) {
             <img
               src={currentSlide.url}
               alt={currentSlide.caption}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain max-h-[82vh] mx-auto"
             />
           )}
 

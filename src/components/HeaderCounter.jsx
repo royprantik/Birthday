@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Heart, Volume2, VolumeX, Sparkles, Image, Settings } from 'lucide-react';
+import { Heart, Volume2, VolumeX, Sparkles, Image, Settings, RefreshCw } from 'lucide-react';
 import { BackgroundMusicPlayer } from './BackgroundMusicPlayer';
 import { soundEngine } from '../utils/audio';
 
@@ -18,6 +17,19 @@ export function HeaderCounter({ onOpenVault, onOpenCustomizer, isMuted, setIsMut
   });
 
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+
+  const handleForceSync = () => {
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+      if ('caches' in window) {
+        caches.keys().then((names) => {
+          for (let name of names) caches.delete(name);
+        });
+      }
+    } catch (e) {}
+    window.location.reload();
+  };
 
   useEffect(() => {
     const calculateTime = () => {
@@ -169,6 +181,15 @@ export function HeaderCounter({ onOpenVault, onOpenCustomizer, isMuted, setIsMut
           >
             <Settings className="w-4 h-4 text-amber-600" />
             <span className="hidden sm:inline">Customize</span>
+          </button>
+
+          <button
+            onClick={handleForceSync}
+            className="btn-secondary text-xs sm:text-sm !py-2 !px-3 flex items-center gap-1.5"
+            title="Sync Latest Deployment & Clear Device Cache"
+          >
+            <RefreshCw className="w-4 h-4 text-emerald-600" />
+            <span className="hidden sm:inline">Sync Site</span>
           </button>
 
           <button
