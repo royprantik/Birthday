@@ -122,9 +122,40 @@ export function SagaMap({ memories, onPlayLevel, onGoToFinale, onSelectStory, cu
                 <h3 className="font-playfair text-xl font-bold text-pink-950 group-hover:text-pink-600 transition-colors">
                   {memory.title}
                 </h3>
-                <p className="text-xs text-pink-800/70 mt-1 mb-4 font-medium">
+                <p className="text-xs text-pink-800/70 mt-1 mb-3 font-medium">
                   {memory.subtitle}
                 </p>
+
+                {/* Level Direct Photo Preview Card */}
+                {memory.slides && memory.slides.length > 0 && (
+                  <div
+                    onClick={(e) => handleStoryClick(e, memory)}
+                    className="w-full mb-4 cursor-pointer group/thumb relative rounded-2xl overflow-hidden border-2 border-pink-300 shadow-md bg-slate-900 hover:border-pink-500 hover:shadow-xl transition-all"
+                  >
+                    <div className="relative aspect-[16/10] w-full overflow-hidden">
+                      <img
+                        src={memory.slides[0].url}
+                        alt={memory.slides[0].caption || memory.title}
+                        className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-2.5 text-left">
+                        <span className="text-[10px] text-pink-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-amber-400" /> {memory.slides[0].date}
+                        </span>
+                        <p className="text-xs text-white font-semibold line-clamp-1 drop-shadow-md">
+                          "{memory.slides[0].caption}"
+                        </p>
+                      </div>
+                      
+                      {/* Multi-photo indicator badge */}
+                      {memory.slides.length > 1 && (
+                        <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-pink-600/90 backdrop-blur-md text-[10px] text-white font-extrabold border border-pink-300/40 shadow-sm flex items-center gap-1">
+                          📸 {memory.slides.length} Photos
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* Level Goal Pill */}
                 <div className="w-full bg-rose-50/80 rounded-xl p-2 mb-4 border border-pink-200 flex items-center justify-around text-xs">
