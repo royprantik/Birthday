@@ -2,13 +2,21 @@ import React, { useState } from 'react';
 import { Lock, Play, Star, Sparkles, Trophy, Heart, Gift, Eye } from 'lucide-react';
 import { soundEngine } from '../utils/audio';
 
-export function SagaMap({ memories, onPlayLevel, onGoToFinale, currentLevelId }) {
+export function SagaMap({ memories, onPlayLevel, onGoToFinale, onSelectStory, currentLevelId }) {
   const [unlockAllMode, setUnlockAllMode] = useState(false);
 
   const handlePlayClick = (e, memory) => {
     e.stopPropagation();
     soundEngine.playClick();
     onPlayLevel(memory.id);
+  };
+
+  const handleStoryClick = (e, memory) => {
+    e.stopPropagation();
+    soundEngine.playClick();
+    if (onSelectStory) {
+      onSelectStory(memory);
+    }
   };
 
   const handleFinaleClick = (e) => {
@@ -130,25 +138,35 @@ export function SagaMap({ memories, onPlayLevel, onGoToFinale, currentLevelId })
                   </div>
                 </div>
 
-                {/* Play Buttons Action Row */}
+                {/* Play & View Story Buttons Action Row */}
                 <div className="w-full flex flex-col gap-2">
+                  {isUnlocked && !isLastLevel && (
+                    <button
+                      onClick={(e) => handleStoryClick(e, memory)}
+                      className="w-full py-2.5 px-4 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-pink-600 via-rose-500 to-pink-500 text-white shadow-lg shadow-pink-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <Eye className="w-4 h-4 text-amber-300" />
+                      <span>View Story Memory ({memory.slides.length} Photos) 📸</span>
+                    </button>
+                  )}
+
                   <button
                     disabled={!isUnlocked}
                     onClick={(e) => handlePlayClick(e, memory)}
-                    className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
+                    className={`w-full py-2 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${
                       isUnlocked
-                        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 hover:from-pink-600 hover:to-rose-600'
+                        ? 'bg-rose-50 text-pink-900 border border-pink-300 hover:bg-pink-100 shadow-sm'
                         : 'bg-rose-100 text-rose-400 cursor-not-allowed border border-rose-200'
                     }`}
                   >
                     {isUnlocked ? (
                       <>
-                        <Play className="w-4 h-4 fill-white" />
+                        <Play className="w-3.5 h-3.5 text-pink-600 fill-pink-500" />
                         <span>Play Level {memory.id} Game 🎮</span>
                       </>
                     ) : (
                       <>
-                        <Lock className="w-4 h-4" />
+                        <Lock className="w-3.5 h-3.5" />
                         <span>Locked (Complete Level {memory.id - 1})</span>
                       </>
                     )}
@@ -158,9 +176,9 @@ export function SagaMap({ memories, onPlayLevel, onGoToFinale, currentLevelId })
                   {isLastLevel && (memory.unlocked || unlockAllMode) && (
                     <button
                       onClick={handleFinaleClick}
-                      className="w-full py-2 px-4 rounded-xl font-bold text-xs bg-amber-100 border border-amber-300 text-amber-900 hover:bg-amber-200 flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                      className="w-full py-2.5 px-4 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-amber-400 via-rose-500 to-pink-600 text-white hover:scale-[1.02] flex items-center justify-center gap-1.5 transition-all shadow-md"
                     >
-                      <Gift className="w-4 h-4 text-amber-600" />
+                      <Gift className="w-4 h-4 text-white" />
                       <span>View Birthday Finale Page 🎂</span>
                     </button>
                   )}

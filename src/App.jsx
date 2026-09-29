@@ -274,6 +274,7 @@ export function App() {
             memories={memories}
             onPlayLevel={handlePlayLevel}
             onGoToFinale={handleGoToFinale}
+            onSelectStory={(mem) => setActiveStoryMemory(mem)}
             currentLevelId={currentLevelId}
           />
         )}
