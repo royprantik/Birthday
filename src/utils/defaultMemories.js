@@ -60,10 +60,26 @@ export const DEFAULT_MEMORIES = [
       {
         id: "2-1",
         type: "image",
-        url: "/memories/sunset_picnic.png",
-        caption: "Our first awkward photos together in Mom's kitchen! 💖",
-        date: "April 2024",
-        mood: "Awkwardly Cute"
+        url: "/memories/level2_slide1.jpg",
+        caption: "Rockstar ninja vibes in the yellow smiley mask! 😎💛🤘",
+        date: "January 9, 2024",
+        mood: "Super Playful & Cool"
+      },
+      {
+        id: "2-2",
+        type: "image",
+        url: "/memories/level2_slide2.jpg",
+        caption: "Miss Violina Das - Official cutest profile of 06-03-2024! 🌸📄💖",
+        date: "March 6, 2024",
+        mood: "Adorable & Official"
+      },
+      {
+        id: "2-3",
+        type: "image",
+        url: "/memories/level2_slide3.jpg",
+        caption: "Good Vibes Only cafe moment with the sweetest smile! ☕✨💜",
+        date: "May 2, 2024",
+        mood: "Warm & Enchanting"
       }
     ]
   },
