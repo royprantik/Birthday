@@ -82,9 +82,9 @@ export function App() {
         try {
           const ls = localStorage.getItem('birthday_herphoto');
           if (ls && !ls.startsWith('blob:')) setHerPhotoUrl(ls);
-          else setHerPhotoUrl('/memories/birthday_cake.png');
+          else setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
         } catch (e) {
-          setHerPhotoUrl('/memories/birthday_cake.png');
+          setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
         }
       }
     });
@@ -196,7 +196,7 @@ export function App() {
       setLetterText(INITIAL_LETTER);
       setVoiceNoteUrl('');
       setBgMusicUrl('/upohar.mp3');
-      setHerPhotoUrl('/memories/birthday_cake.png');
+      setHerPhotoUrl('/memories/level1_slide1.jpg?v=3');
     }
   };
 
@@ -241,7 +241,7 @@ export function App() {
           currentLevelId === lastLevelId ? (
             <JigsawPuzzleGame
               levelData={currentLevelData}
-              imageUrl={currentLevelData.puzzleImage || currentLevelData.slides[0]?.url || '/memories/birthday_cake.png'}
+              imageUrl={currentLevelData.puzzleImage || currentLevelData.slides[0]?.url || '/memories/level1_slide1.jpg?v=3'}
               onBackToMap={() => setView('map')}
               onLevelComplete={handleLevelComplete}
             />
