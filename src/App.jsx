@@ -25,28 +25,11 @@ export function App() {
   const [isCeremonyActive, setIsCeremonyActive] = useState(false);
 
   // Load state from DEFAULT_MEMORIES and sync unlocked status from storage
-  const [memories, setMemories] = useState(() => {
-    try {
-      const saved = localStorage.getItem('birthday_memories_v10') || localStorage.getItem('birthday_memories_v3') || localStorage.getItem('birthday_memories');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 9) {
-          return DEFAULT_MEMORIES.map((defMem, idx) => {
-            const savedMem = parsed.find((m) => m.id === defMem.id) || parsed[idx];
-            return {
-              ...defMem,
-              unlocked: savedMem ? savedMem.unlocked : defMem.unlocked
-            };
-          });
-        }
-      }
-    } catch (e) {}
-    return DEFAULT_MEMORIES;
-  });
+  const [memories, setMemories] = useState(DEFAULT_MEMORIES);
 
   const [letterText, setLetterText] = useState(() => {
     try {
-      const saved = localStorage.getItem('birthday_letter_v3');
+      const saved = localStorage.getItem('birthday_letter_v5');
       if (saved && saved.includes('Violina')) {
         return saved;
       }
@@ -58,11 +41,11 @@ export function App() {
   const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
   const [herPhotoUrl, setHerPhotoUrl] = useState('');
 
-  // Fetch Cloud Database state on mount (Syncs changes made across any device worldwide!)
+  // Fetch Cloud Database state on mount (Syncs unlocked level progress while keeping code photos pristine!)
   useEffect(() => {
     fetchCloudState().then((remoteData) => {
       if (remoteData) {
-        if (remoteData.letterText) setLetterText(remoteData.letterText);
+        if (remoteData.letterText && remoteData.letterText.includes('Violina')) setLetterText(remoteData.letterText);
         if (remoteData.bgMusicUrl && !remoteData.bgMusicUrl.startsWith('blob:')) {
           setBgMusicUrl(remoteData.bgMusicUrl);
         } else {
@@ -70,15 +53,14 @@ export function App() {
         }
         if (remoteData.voiceNoteUrl && !remoteData.voiceNoteUrl.startsWith('blob:')) setVoiceNoteUrl(remoteData.voiceNoteUrl);
         if (remoteData.herPhotoUrl && !remoteData.herPhotoUrl.startsWith('blob:')) setHerPhotoUrl(remoteData.herPhotoUrl);
+        
         if (remoteData.memories && Array.isArray(remoteData.memories)) {
-          setMemories(
+          setMemories((currentMems) =>
             DEFAULT_MEMORIES.map((defMem, idx) => {
               const remoteMem = remoteData.memories.find((m) => m.id === defMem.id) || remoteData.memories[idx];
-              if (!remoteMem) return defMem;
               return {
                 ...defMem,
-                unlocked: remoteMem.unlocked !== undefined ? remoteMem.unlocked : defMem.unlocked,
-                slides: (remoteMem.slides && remoteMem.slides.length >= defMem.slides.length) ? remoteMem.slides : defMem.slides
+                unlocked: remoteMem ? remoteMem.unlocked : defMem.unlocked
               };
             })
           );
