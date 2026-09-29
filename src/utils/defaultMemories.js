@@ -19,12 +19,12 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 18,
     requiredType: "heart",
     requiredCount: 10,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "1-1",
         type: "image",
-        url: "/memories/level1_slide1.jpg",
+        url: "/memories/level1_slide1.jpg?v=3",
         caption: "The sweet smile that started it all! ☕💖",
         date: "April 5, 2024",
         mood: "Nervous & Enchanted"
@@ -32,7 +32,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "1-2",
         type: "image",
-        url: "/memories/level1_slide2.jpg",
+        url: "/memories/level1_slide2.jpg?v=3",
         caption: "Goru Bihu matashree vibes & hilarious turmeric face mask! 😂🌾❤️",
         date: "April 13, 2024",
         mood: "Playful & Hilarious"
@@ -40,7 +40,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "1-3",
         type: "image",
-        url: "/memories/level1_slide3.jpg",
+        url: "/memories/level1_slide3.jpg?v=3",
         caption: "Everyone is busy doing Bihu photoshoot... Me bihu khaba jai asu! 😎✨",
         date: "April 13, 2024",
         mood: "Gorgeous & Festive"
@@ -55,12 +55,12 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 18,
     requiredType: "star",
     requiredCount: 12,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "2-1",
         type: "image",
-        url: "/memories/level2_slide1.jpg",
+        url: "/memories/level2_slide1.jpg?v=3",
         caption: "Rockstar ninja vibes in the yellow smiley mask! 😎💛🤘",
         date: "January 9, 2024",
         mood: "Super Playful & Cool"
@@ -68,7 +68,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "2-2",
         type: "image",
-        url: "/memories/level2_slide2.jpg",
+        url: "/memories/level2_slide2.jpg?v=3",
         caption: "Miss Violina Das - Official cutest profile of 06-03-2024! 🌸📄💖",
         date: "March 6, 2024",
         mood: "Adorable & Official"
@@ -76,7 +76,7 @@ export const DEFAULT_MEMORIES = [
       {
         id: "2-3",
         type: "image",
-        url: "/memories/level2_slide3.jpg",
+        url: "/memories/level2_slide3.jpg?v=3",
         caption: "Good Vibes Only cafe moment with the sweetest smile! ☕✨💜",
         date: "May 2, 2024",
         mood: "Warm & Enchanting"
@@ -91,7 +91,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 20,
     requiredType: "cupcake",
     requiredCount: 14,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "3-1",
@@ -111,7 +111,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 20,
     requiredType: "rose",
     requiredCount: 15,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "4-1",
@@ -131,7 +131,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 22,
     requiredType: "heart",
     requiredCount: 16,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "5-1",
@@ -151,7 +151,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 22,
     requiredType: "star",
     requiredCount: 17,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "6-1",
@@ -171,7 +171,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 24,
     requiredType: "rose",
     requiredCount: 18,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "7-1",
@@ -191,7 +191,7 @@ export const DEFAULT_MEMORIES = [
     maxMoves: 25,
     requiredType: "cupcake",
     requiredCount: 20,
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "8-1",
@@ -208,7 +208,7 @@ export const DEFAULT_MEMORIES = [
     title: "Level 9: Grand Birthday Celebration",
     subtitle: "Happy Birthday Miss Violina Ray! 🎂🎉💖",
     puzzleImage: "/memories/birthday_cake.png",
-    unlocked: false,
+    unlocked: true,
     slides: [
       {
         id: "9-1",

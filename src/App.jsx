@@ -24,31 +24,18 @@ export function App() {
 
   const [isCeremonyActive, setIsCeremonyActive] = useState(false);
 
-  // Load memories state - DEFAULT_MEMORIES in code is 100% absolute source of truth for photo slides!
+  // Load memories state - DEFAULT_MEMORIES in code is 100% absolute source of truth for photo slides & unlocked state!
   const [memories, setMemories] = useState(DEFAULT_MEMORIES);
 
-  // Sync unlocked level progress on mount while preserving code photos
+  // Sync state on mount if DEFAULT_MEMORIES changes
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('birthday_unlocked_levels_v1');
-      if (saved) {
-        const unlockedIds = JSON.parse(saved);
-        if (Array.isArray(unlockedIds)) {
-          setMemories(
-            DEFAULT_MEMORIES.map((m) => ({
-              ...m,
-              unlocked: unlockedIds.includes(m.id) || m.id === 1
-            }))
-          );
-        }
-      }
-    } catch (e) {}
+    setMemories(DEFAULT_MEMORIES);
   }, []);
 
   const [letterText, setLetterText] = useState(INITIAL_LETTER);
   const [voiceNoteUrl, setVoiceNoteUrl] = useState('');
   const [bgMusicUrl, setBgMusicUrl] = useState('/upohar.mp3');
-  const [herPhotoUrl, setHerPhotoUrl] = useState('/memories/level1_slide1.jpg');
+  const [herPhotoUrl, setHerPhotoUrl] = useState('/memories/level1_slide1.jpg?v=3');
 
   // Save unlocked level IDs to storage
   useEffect(() => {

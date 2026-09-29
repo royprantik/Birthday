@@ -70,7 +70,7 @@ export function SagaMap({ memories, onPlayLevel, onGoToFinale, onSelectStory, cu
         <div className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-gradient-to-b from-pink-400/40 via-rose-300/40 to-pink-500/40 rounded-full z-0 hidden sm:block border border-dashed border-pink-300/40" />
 
         {memories.map((memory, index) => {
-          const isUnlocked = unlockAllMode || memory.unlocked || memory.id === 1;
+          const isUnlocked = true; // ALL levels are unlocked so anyone can view stories & play immediately!
           const isLastLevel = index === memories.length - 1;
 
           // Alternate left / right offset layout for saga map feel
